@@ -55,8 +55,8 @@ describe('NetworkLatencyIndicator', () => {
       } as Response;
     });
 
-    const perfSpy = vi.spyOn(performance, 'now');
-    perfSpy.mockReturnValueOnce(1000).mockReturnValueOnce(3500);
+    const dateSpy = vi.spyOn(Date, 'now');
+    dateSpy.mockReturnValueOnce(1000).mockReturnValueOnce(3500);
 
     await act(async () => {
       root.render(React.createElement(NetworkLatencyIndicator));
@@ -67,7 +67,7 @@ describe('NetworkLatencyIndicator', () => {
     expect(pill?.className).toContain('text-amber-700');
     expect(container.textContent).toContain('2500ms');
 
-    perfSpy.mockRestore();
+    dateSpy.mockRestore();
     mockFetch.mockRestore();
   });
 

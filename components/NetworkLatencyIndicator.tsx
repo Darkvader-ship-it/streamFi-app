@@ -30,7 +30,7 @@ export function NetworkLatencyIndicator() {
       if (!rpcUrl) return;
 
       abortController = new AbortController();
-      const started = typeof performance !== 'undefined' ? performance.now() : Date.now();
+      const started = Date.now();
 
       try {
         const res = await fetch(rpcUrl, {
@@ -39,8 +39,8 @@ export function NetworkLatencyIndicator() {
           body: JSON.stringify({ jsonrpc: '2.0', id: 1, method: 'getLatestLedger' }),
           signal: abortController.signal,
         });
-        const ended = typeof performance !== 'undefined' ? performance.now() : Date.now();
-        const latencyMs = Math.round(ended - started);
+        const ended = Date.now();
+        const latencyMs = Math.max(0, Math.round(ended - started));
 
         let ledgerHeight: number | null = null;
         if (res.ok) {
